@@ -1,0 +1,12 @@
+{
+  "name": "ritos",
+  "owner": { "name": "Vitor Camargo" },
+  "description": "Plugins de trabalho do Vitor com agentes de IA.",
+  "plugins": [
+    {
+      "name": "ritos",
+      "source": "./plugins/ritos",
+      "description": "Ritos de documentação para projetos em que uma pessoa dirige e um agente de IA executa: HANDOFF no início da sessão, cobrança de documentação no fim do turno e trava de commit descritivo."
+    }
+  ]
+}

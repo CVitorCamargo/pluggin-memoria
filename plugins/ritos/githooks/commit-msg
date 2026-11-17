@@ -1,0 +1,5 @@
+#!/bin/sh
+# Trava dos ritos: commit descritivo e histórico junto com o código.
+# Ligada pelo hook de início do plugin (core.hooksPath aponta para esta pasta).
+# Lógica em ../scripts/ritos.py; sem .claude/ritos.json no projeto, deixa passar.
+exec python "$(dirname "$0")/../scripts/ritos.py" commit-msg "$1"

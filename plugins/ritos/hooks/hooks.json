@@ -1,0 +1,30 @@
+{
+  "description": "Travas dos ritos: no início da sessão entrega o HANDOFF, o git status e os últimos commits; no fim do turno avisa arquivos sem commit e cobra a documentação de código mudado. Só age em projeto com .claude/ritos.json.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/ritos.py\" sessao",
+            "shell": "bash",
+            "timeout": 20,
+            "statusMessage": "Lendo HANDOFF e git status"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/ritos.py\" fim",
+            "shell": "bash",
+            "timeout": 20
+          }
+        ]
+      }
+    ]
+  }
+}
