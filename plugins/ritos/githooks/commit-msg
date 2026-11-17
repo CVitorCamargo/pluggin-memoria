@@ -2,4 +2,8 @@
 # Trava dos ritos: commit descritivo e histórico junto com o código.
 # Ligada pelo hook de início do plugin (core.hooksPath aponta para esta pasta).
 # Lógica em ../scripts/ritos.py; sem .claude/ritos.json no projeto, deixa passar.
-exec python "$(dirname "$0")/../scripts/ritos.py" commit-msg "$1"
+# Depois da trava, roda o commit-msg que o projeto já tinha (_encaminhar.sh).
+DIR=$(dirname "$0")
+sh "$DIR/../scripts/rodar.sh" commit-msg "$1" || exit 1
+. "$DIR/_encaminhar.sh"
+encaminhar commit-msg "$@"

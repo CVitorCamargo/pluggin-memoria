@@ -1,0 +1,4 @@
+#!/bin/sh
+# Só encaminha para o hook que o projeto já tinha (ver _encaminhar.sh).
+. "$(dirname "$0")/_encaminhar.sh"
+encaminhar "$(basename "$0")" "$@"

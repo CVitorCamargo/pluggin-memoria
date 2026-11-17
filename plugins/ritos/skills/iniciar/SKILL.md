@@ -16,7 +16,7 @@ Os ritos em si estão na skill `ritos:ritos`. Esta skill só monta os arquivos.
    - `.claude/ritos.json` com `codigo` (as pastas de código) e, se o projeto tiver regras próprias de documentação, `ritos_projeto`;
    - `CLAUDE.md`, `HANDOFF.md`, `SETUP.md`, `docs/historico.md` (primeira linha: a data e "ritos iniciados"), `docs/pendencias.md`.
    - Pasta nova (`docs/arquivo/`, `docs/<parte>/`) só com o primeiro arquivo.
-5. **Ligar e conferir as travas:** a trava de commit liga no próximo início de sessão. Dizer ao diretor para abrir uma sessão nova e conferir que o HANDOFF aparece no contexto e que `git config --get core.hooksPath` aponta para a pasta `githooks` do plugin. Se o projeto já usa outra ferramenta de hooks do git (husky, pre-commit), avisar que a trava de commit não liga sozinha.
+5. **Ligar e conferir as travas:** a trava de commit liga no próximo início de sessão. Dizer ao diretor para abrir uma sessão nova e conferir que o HANDOFF aparece no contexto e que `git config --get core.hooksPath` aponta para a pasta `githooks` do plugin. Se o projeto já usa outra ferramenta de hooks do git (husky, pre-commit), avisar que o plugin assume o `core.hooksPath` e chama os hooks dela depois da trava (o caminho anterior fica em `git config ritos.hooksPathAnterior`).
 6. Relatar o que foi criado, o que foi e o que não foi verificado. Commit só quando o diretor pedir.
 
 ## Esqueletos
