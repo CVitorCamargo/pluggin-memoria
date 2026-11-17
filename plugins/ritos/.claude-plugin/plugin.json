@@ -1,6 +1,6 @@
 {
   "name": "ritos",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Ritos de documentação para projetos em que uma pessoa dirige e um agente de IA executa: cada pergunta tem um documento, cada fato mora num lugar só, e as regras que custam caro viram trava automática (início de sessão, fim de turno e commit).",
   "author": { "name": "Vitor Camargo" },
   "keywords": ["documentacao", "handoff", "commit", "hooks", "ritos"]

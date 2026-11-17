@@ -118,11 +118,12 @@ O aviso não espera o diretor perguntar e não some até ser resolvido ou o dire
 
 ## 7. Travas automáticas
 
-Regra escrita não basta: a que custa caro vira trava mecânica. Este plugin liga três, **só em projeto com `.claude/ritos.json`**:
-- **Início de sessão** (também depois de resumo): o HANDOFF inteiro, o `git status` e os últimos commits entram no contexto; arquivo sem commit vira "⚠️ Risco de perda" para o diretor. Depois de um resumo, lembra de registrar o que só estava na conversa. Liga a trava de commit (`core.hooksPath` aponta para o plugin; não toma o lugar de hooks de outra ferramenta).
-- **Fim do turno:** lista os arquivos que esta sessão mexeu (Edit/Write) e estão sem commit. Se há código entre eles e nem o histórico nem o HANDOFF mudaram, o agente volta **uma vez** para atualizar ou dizer que não é marco.
-- **Commit:** recusado sem "Por quê:" ou "Verificado:", ou com código sem o histórico. Quando não é marco: `Sem histórico: <motivo>`. Merge, revert e fixup passam. **Nunca contornar com `--no-verify`.**
-- Limites: o fim do turno não vê arquivo mudado por comando no terminal; a trava confere que o documento mudou, não que o texto está certo. Erro interno deixa passar.
+Regra escrita não basta: a que custa caro vira trava mecânica. Este plugin liga quatro, **só em projeto com `.claude/ritos.json`**:
+- **Início de sessão** (também depois de resumo): o HANDOFF (até `handoff_max_linhas`, padrão 80; acima disso corta e avisa para arquivar), o `git status` e os últimos commits entram no contexto; arquivo sem commit vira "⚠️ Risco de perda" para o diretor. Liga a trava de commit: `core.hooksPath` aponta para o plugin, e os hooks que o projeto já tinha (`.git/hooks`, husky, `.githooks`) continuam rodando, chamados pelo plugin.
+- **Antes de resumir a conversa:** pede ao resumo uma seção "Ainda só na conversa" com decisão, número, link ou combinado ainda não escrito. Depois do resumo, o início de sessão manda registrar o que ela listou.
+- **Fim do turno:** lista os arquivos mudados nesta sessão e sem commit (por Edit/Write **e** por comando no terminal, comparando com a foto do início). Se há código entre eles e nem o histórico nem o HANDOFF mudaram, o agente volta **uma vez** para atualizar ou dizer que não é marco. Se o diretor usou palavra de decisão ("decidi", "aprovado", "fica assim"...) e nenhum documento mudou, volta **uma vez por sessão** para registrar ou responder "nada a registrar" (`lembrar_decisoes: false` desliga).
+- **Commit:** recusado sem "Por quê:" ou "Verificado:", com código sem o histórico, ou com o histórico mudado fora do fim. Quando não é marco: `Sem histórico: <motivo>`; correção de propósito no histórico: `Histórico editado: <motivo>`. Merge, revert e fixup passam. **Nunca contornar com `--no-verify`.**
+- Limites: a trava confere que o documento mudou, não que o texto está certo; o lembrete de decisão é por palavra, não por sentido; arquivo mudado por outra sessão ao mesmo tempo também conta como "desta sessão". Erro interno e falta de Python deixam passar, com aviso.
 
 `.claude/ritos.json` (todos os campos são opcionais):
 ```json
@@ -130,10 +131,15 @@ Regra escrita não basta: a que custa caro vira trava mecânica. Este plugin lig
   "codigo": ["projects/", "infra/"],
   "historico": "docs/historico.md",
   "handoff": "HANDOFF.md",
-  "ritos_projeto": "docs/ritos-documentacao.md"
+  "pendencias": "docs/pendencias.md",
+  "ritos_projeto": "docs/ritos-documentacao.md",
+  "handoff_max_linhas": 80,
+  "lembrar_decisoes": true
 }
 ```
 `codigo` vazio: conta como código tudo que não é `.md` fora de `docs/` e `.claude/`.
+
+Para tirar o plugin de um projeto: `sh <pasta do plugin>/scripts/rodar.sh desligar` (devolve o `core.hooksPath` ao que era) e apagar o `.claude/ritos.json`.
 
 ## 8. Modelos
 
